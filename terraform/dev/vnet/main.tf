@@ -31,7 +31,7 @@ resource "azurerm_subnet" "appgwsubnet" {
     address_prefixes          = [var.appgwSubnetAddress]
 }
 resource "azurerm_subnet" "fwsubnet" {
-    name                    = "${var.prefix}fwsubnet"
+    name                    = "AzureFirewallSubnet"
     resource_group_name     = azurerm_resource_group.rg.name
     virtual_network_name    = azurerm_virtual_network.vnet.name
     address_prefixes          = [var.fwSubnetAddress]
