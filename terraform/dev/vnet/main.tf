@@ -56,3 +56,19 @@ resource "azurerm_firewall" "fw" {
     public_ip_address_id = azurerm_public_ip.fwpublicip.id
   }
 }
+resource "azurerm_route_table" "fwrt" {
+  name                          = "${var.prefix}fwrt"
+  location                      = azurerm_resource_group.rg.location
+  resource_group_name           = azurerm_resource_group.rg.name
+  disable_bgp_route_propagation = false
+
+  route {
+    name           = "route1"
+    address_prefix = "10.1.0.0/16"
+    next_hop_type  = "vnetlocal"
+  }
+
+  tags = {
+    environment = "Production"
+  }
+}
