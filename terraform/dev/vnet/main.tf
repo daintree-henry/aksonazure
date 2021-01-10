@@ -14,25 +14,25 @@ resource "azurerm_virtual_network" "vnet" {
 
 resource "azurerm_subnet" "akssubnet" {
     name                    = "${var.prefix}akssubnet"
-    resource_group_name     = "${azurerm_virtual_network.rg.name}"
+    resource_group_name     = "${azurerm_resource_group.rg.name}"
     virtual_network_name    = "${azurerm_virtual_network.vnet.name}"
     address_prefix          = "${var.aksSubnetAddress}"
 }
 resource "azurerm_subnet" "svcsubnet" {
     name                    = "${var.prefix}svcsubnet"
-    resource_group_name     = "${azurerm_virtual_network.rg.name}"
+    resource_group_name     = "${azurerm_resource_group.rg.name}"
     virtual_network_name    = "${azurerm_virtual_network.vnet.name}"
     address_prefix          = "${var.svcSubnetAddress}"
 }
 resource "azurerm_subnet" "appgwsubnet" {
     name                    = "${var.prefix}appgwsubnet"
-    resource_group_name     = "${azurerm_virtual_network.rg.name}"
+    resource_group_name     = "${azurerm_resource_group.rg.name}"
     virtual_network_name    = "${azurerm_virtual_network.vnet.name}"
     address_prefix          = "${var.appgwSubnetAddress}"
 }
 resource "azurerm_subnet" "fwsubnet" {
     name                    = "${var.prefix}fwsubnet"
-    resource_group_name     = "${azurerm_virtual_network.rg.name}"
+    resource_group_name     = "${azurerm_resource_group.rg.name}"
     virtual_network_name    = "${azurerm_virtual_network.vnet.name}"
     address_prefix          = "${var.fwSubnetAddress}"
 }
