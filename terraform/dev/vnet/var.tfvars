@@ -1,5 +1,6 @@
 location = "koreacentral"
 prefix = "hhwtesttest"
+
 vnetAddress = "100.64.0.0/16"
 aksSubnetAddress = "100.64.1.0/24"
 svcSubnetAddress = "100.64.2.0/24"
