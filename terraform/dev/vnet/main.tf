@@ -16,7 +16,7 @@ resource "azurerm_subnet" "akssubnet" {
     name                    = "${var.prefix}akssubnet"
     resource_group_name     = "${azurerm_resource_group.rg.name}"
     virtual_network_name    = "${azurerm_virtual_network.vnet.name}"
-    address_prefies          = "${var.aksSubnetAddress}"
+    address_prefixes          = ["${var.aksSubnetAddress}"]
 }
 resource "azurerm_subnet" "svcsubnet" {
     name                    = "${var.prefix}svcsubnet"
