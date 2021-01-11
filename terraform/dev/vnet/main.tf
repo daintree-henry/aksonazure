@@ -54,8 +54,8 @@ resource "azurerm_firewall" "fw" {
   resource_group_name = azurerm_resource_group.rg.name
   sku_tier = "Standard"
 
-  dns_proxy = true
-  
+  dns_servers = ["168.63.129.16"]
+
   ip_configuration {
     name                 = "configuration"
     subnet_id            = azurerm_subnet.fwsubnet.id
