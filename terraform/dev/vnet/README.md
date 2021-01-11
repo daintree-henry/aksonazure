@@ -2,5 +2,9 @@
 
 ## 2. VNet 생성
 
+## 3. Firewall 생성
+
+## 4. Application Gateway 생성
+
 
 테라폼 실행 명령
