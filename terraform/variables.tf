@@ -10,6 +10,9 @@ variable "location" {
   default     = "southeastasia"
   description = "The Azure Region in which all resources will be provisioned in"
 }
+variable "svcLoadbalancerAddress" {
+  description = "The version of Kubernetes you want deployed to your cluster. Please reference the command: az aks get-versions --location eastus -o table"
+}
 
 variable "kubernetes_version" {
   default     = "1.19.3"
