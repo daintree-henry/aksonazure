@@ -12,6 +12,7 @@ resource "azurerm_virtual_network" "vnet" {
     resource_group_name = azurerm_resource_group.rg.name
 }
 
+# 서브넷 생성
 resource "azurerm_subnet" "akssubnet" {
     name                    = "${var.prefix}akssubnet"
     resource_group_name     = azurerm_resource_group.rg.name
@@ -37,6 +38,7 @@ resource "azurerm_subnet" "fwsubnet" {
     address_prefixes          = [var.fwSubnetAddress]
 }
 
+#public ip 생성
 resource "azurerm_public_ip" "fwpublicip" {
   name                = "${var.prefix}fwpublicip"
   location            = azurerm_resource_group.rg.location
@@ -45,6 +47,7 @@ resource "azurerm_public_ip" "fwpublicip" {
   sku                 = "Standard"
 }
 
+#firewall 생성
 resource "azurerm_firewall" "fw" {
   name                = "${var.prefix}fw"
   location            = azurerm_resource_group.rg.location
@@ -58,16 +61,7 @@ resource "azurerm_firewall" "fw" {
   }
 }
 
-resource "azurerm_firewall_policy" "fwp" {
-  name                = "${var.prefix}fwp"
-  location            = azurerm_resource_group.rg.location
-  resource_group_name = azurerm_resource_group.rg.name
-
-  dns {
-    proxy_enabled = true
-  }
-}
-
+#route table 생성
 resource "azurerm_route_table" "fwrt" {
   name                          = "${var.prefix}fwrt"
   location                      = azurerm_resource_group.rg.location
@@ -86,13 +80,159 @@ resource "azurerm_route_table" "fwrt" {
   }
 }
 
-#az network route-table route create -g $RG --name $FWROUTE_NAME --route-table-name $FWROUTE_TABLE_NAME --address-prefix 0.0.0.0/0 --next-hop-type VirtualAppliance --next-hop-ip-address $FWPRIVATE_IP --subscription $SUBID
-# Add FW Network Rules
 
-# az network firewall network-rule create -g $RG -f $FWNAME --collection-name 'aksfwnr' -n 'apiudp' --protocols 'UDP' --source-addresses '*' --destination-addresses "AzureCloud.$LOC" --destination-ports 1194 --action allow --priority 100
-# az network firewall network-rule create -g $RG -f $FWNAME --collection-name 'aksfwnr' -n 'apitcp' --protocols 'TCP' --source-addresses '*' --destination-addresses "AzureCloud.$LOC" --destination-ports 9000 443
-# az network firewall network-rule create -g $RG -f $FWNAME --collection-name 'aksfwnr' -n 'time' --protocols 'UDP' --source-addresses '*' --destination-fqdns 'ntp.Ubuntu.com' --destination-ports 123
+#firewall과 subnet 연결
+resource "azurerm_subnet_route_table_association" "srta" {
+  subnet_id      = azurerm_subnet.fwsubnet.id
+  route_table_id = azurerm_route_table.fwrt.id
+}
 
-# az network firewall network-rule create -g $RG -f $FWNAME --collection-name 'aksfwnr2' -n 'dns' --protocols 'UDP' --source-addresses '*' --destination-addresses '*' --destination-ports 53 --action allow --priority 200
-# az network firewall network-rule create -g $RG -f $FWNAME --collection-name 'aksfwnr3' -n 'gitssh' --protocols 'TCP' --source-addresses '*' --destination-addresses '*' --destination-ports 22 --action allow --priority 300
-# az network firewall network-rule create -g $RG -f $FWNAME --collection-name 'aksfwnr4' -n 'fileshare' --protocols 'TCP' --source-addresses '*' --destination-addresses '*' --destination-ports 445 --action allow --priority 400
+resource "azurerm_firewall_network_rule_collection" "fwrulecollection100" {
+  name                = "aksfwnr"
+  azure_firewall_name = azurerm_firewall.fw.name
+  resource_group_name = azurerm_resource_group.rg.name
+  priority            = 100
+  action              = "Allow"
+
+  rule {
+    name = "apiudp"
+
+    source_addresses = [
+      "*",
+    ]
+
+    destination_ports = [
+      "1194",
+    ]
+
+    destination_addresses = [
+      "AzureCloud.${var.location}",
+    ]
+
+    protocols = [
+      "UDP",
+    ]
+  }
+  rule {
+    name = "apitcp"
+
+    source_addresses = [
+      "*",
+    ]
+
+    destination_ports = [
+      "9000",
+    ]
+
+    destination_addresses = [
+      "AzureCloud.${var.location}",
+    ]
+
+    protocols = [
+      "TCP",
+    ]
+  }
+  rule {
+    name = "time"
+
+    source_addresses = [
+      "*",
+    ]
+
+    destination_ports = [
+      "123",
+    ]
+
+    destination_fqdns = [
+      "ntp.Ubuntu.com",
+    ]
+
+    protocols = [
+      "UDP",
+    ]
+  }
+
+}
+
+resource "azurerm_firewall_network_rule_collection" "fwrulecollection200" {
+  name                = "aksfwnr2"
+  azure_firewall_name = azurerm_firewall.fw.name
+  resource_group_name = azurerm_resource_group.rg.name
+  priority            = 200
+  action              = "Allow"
+
+  rule {
+    name = "dns"
+
+    source_addresses = [
+      "*",
+    ]
+
+    destination_ports = [
+      "53",
+    ]
+
+    destination_addresses = [
+      "*",
+    ]
+
+    protocols = [
+      "UDP",
+    ]
+  }
+}
+
+resource "azurerm_firewall_network_rule_collection" "fwrulecollection300" {
+  name                = "aksfwnr3"
+  azure_firewall_name = azurerm_firewall.fw.name
+  resource_group_name = azurerm_resource_group.rg.name
+  priority            = 300
+  action              = "Allow"
+
+  rule {
+    name = "gitssh"
+
+    source_addresses = [
+      "*",
+    ]
+
+    destination_ports = [
+      "22",
+    ]
+
+    destination_addresses = [
+      "*",
+    ]
+
+    protocols = [
+      "TCP",
+    ]
+  }
+}
+resource "azurerm_firewall_network_rule_collection" "fwrulecollection400" {
+  name                = "aksfwnr4"
+  azure_firewall_name = azurerm_firewall.fw.name
+  resource_group_name = azurerm_resource_group.rg.name
+  priority            = 400
+  action              = "Allow"
+
+  rule {
+    name = "fileshare"
+
+    source_addresses = [
+      "*",
+    ]
+
+    destination_ports = [
+      "445",
+    ]
+
+    destination_addresses = [
+      "*",
+    ]
+
+    protocols = [
+      "TCP",
+    ]
+  }
+}
