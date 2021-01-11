@@ -87,7 +87,7 @@ resource "azurerm_subnet_route_table_association" "srta" {
   route_table_id = azurerm_route_table.fwrt.id
 }
 
-resource "azurerm_firewall_network_rule_collection" "fwrulecollection100" {
+resource "azurerm_firewall_network_rule_collection" "aksfwnr1" {
   name                = "aksfwnr"
   azure_firewall_name = azurerm_firewall.fw.name
   resource_group_name = azurerm_resource_group.rg.name
@@ -154,7 +154,7 @@ resource "azurerm_firewall_network_rule_collection" "fwrulecollection100" {
 
 }
 
-resource "azurerm_firewall_network_rule_collection" "fwrulecollection200" {
+resource "azurerm_firewall_network_rule_collection" "aksfwnr2" {
   name                = "aksfwnr2"
   azure_firewall_name = azurerm_firewall.fw.name
   resource_group_name = azurerm_resource_group.rg.name
@@ -182,7 +182,7 @@ resource "azurerm_firewall_network_rule_collection" "fwrulecollection200" {
   }
 }
 
-resource "azurerm_firewall_network_rule_collection" "fwrulecollection300" {
+resource "azurerm_firewall_network_rule_collection" "aksfwnr3" {
   name                = "aksfwnr3"
   azure_firewall_name = azurerm_firewall.fw.name
   resource_group_name = azurerm_resource_group.rg.name
@@ -209,7 +209,8 @@ resource "azurerm_firewall_network_rule_collection" "fwrulecollection300" {
     ]
   }
 }
-resource "azurerm_firewall_network_rule_collection" "fwrulecollection400" {
+
+resource "azurerm_firewall_network_rule_collection" "aksfwnr4" {
   name                = "aksfwnr4"
   azure_firewall_name = azurerm_firewall.fw.name
   resource_group_name = azurerm_resource_group.rg.name
@@ -234,5 +235,66 @@ resource "azurerm_firewall_network_rule_collection" "fwrulecollection400" {
     protocols = [
       "TCP",
     ]
+  }
+}
+
+
+resource "azurerm_firewall_application_rule_collection" "aksfwar" {
+  name                = "aksfwar"
+  azure_firewall_name = azurerm_firewall.fw.name
+  resource_group_name = azurerm_resource_group.rg.name
+  priority            = 100
+  action              = "Allow"
+
+  rule {
+    name = "fqdn"
+
+    source_addresses = [
+      "*",
+    ]
+
+    target_fqdns = [
+      "AzureKubernetesService",
+    ]
+
+    protocol {
+      port = "80"
+      type = "Http"
+    }
+    
+    protocol {
+      port = "443"
+      type = "Https"
+    }
+  }
+}
+
+resource "azurerm_firewall_application_rule_collection" "AKS" {
+  name                = "AKS"
+  azure_firewall_name = azurerm_firewall.fw.name
+  resource_group_name = azurerm_resource_group.rg.name
+  priority            = 200
+  action              = "Allow"
+
+  rule {
+    name = "required"
+
+    source_addresses = [
+      "*",
+    ]
+
+    target_fqdns = [
+      "AzureKubernetesService", "aksrepos.azurecr.io", "*blob.core.windows.net", "mcr.microsoft.com", "*cdn.mscr.io", "management.azure.com", "login.microsoftonline.com", "ntp.ubuntu.com", "packages.microsoft.com", "acs-mirror.azureedge.net", "*.hcp.eastus.azmk8s.io", "*.tun.eastus.azmk8s.io", "security.ubuntu.com", "*archive.ubuntu.com", "changelogs.ubuntu.com", "nvidia.github.io", "us.download.nvidia.com", "apt.dockerproject.org", "dc.services.visualstudio.com", "*.ods.opinsights.azure.com", "*.oms.opinsights.azure.com", "*.microsoftonline.com", "*.monitoring.azure.com", "*auth.docker.io", "*cloudflare.docker.io", "*cloudflare.docker.com", "*registry-1.docker.io", "apt.dockerproject.org", "gcr.io", "storage.googleapis.com", "*.quay.io", "quay.io", "*.cloudfront.net", "*.azurecr.io", "*.gk.azmk8s.io", "raw.githubusercontent.com", "gov-prod-policy-data.trafficmanager.net", "api.snapcraft.io", "*.github.com", "*.vault.azure.net", "*.azds.io", "index.docker.io", "k8s.gcr.io", "checkpoint-api.weave.works"
+    ]
+
+    protocol {
+      port = "80"
+      type = "Http"
+    }
+    
+    protocol {
+      port = "443"
+      type = "Https"
+    }
   }
 }
