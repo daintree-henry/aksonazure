@@ -78,7 +78,7 @@ resource "azurerm_route_table" "fwrt" {
     name           = "${var.prefix}fwroute"
     address_prefix = "0.0.0.0/0"
     next_hop_type  = "VirtualNetworkGateway"
-    next_hop_in_ip_address = azurerm_firewall.fw.
+    next_hop_in_ip_address = azurerm_firewall.fw.ip_configuration[0].private_ip_address
   }
 
   tags = {
