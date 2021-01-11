@@ -54,11 +54,14 @@ resource "azurerm_firewall" "fw" {
   resource_group_name = azurerm_resource_group.rg.name
   sku_tier = "Standard"
 
+  dns_proxy = true
+  
   ip_configuration {
     name                 = "configuration"
     subnet_id            = azurerm_subnet.fwsubnet.id
     public_ip_address_id = azurerm_public_ip.fwpublicip.id
   }
+
 }
 
 #route table 생성
@@ -79,7 +82,6 @@ resource "azurerm_route_table" "fwrt" {
     environment = "Production"
   }
 }
-
 
 #firewall과 subnet 연결
 resource "azurerm_subnet_route_table_association" "srta" {
@@ -237,7 +239,6 @@ resource "azurerm_firewall_network_rule_collection" "aksfwnr4" {
     ]
   }
 }
-
 
 resource "azurerm_firewall_application_rule_collection" "aksfwar" {
   name                = "aksfwar"
