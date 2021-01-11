@@ -337,12 +337,12 @@ resource "azurerm_application_gateway" "network" {
 
   frontend_ip_configuration {
     name                 = "${azurerm_virtual_network.vnet.name}-feip"
-    public_ip_address_id = azurerm_public_ip.agpublicip.ip_address
+    public_ip_address_id = azurerm_public_ip.agpublicip.id
   }
 
   backend_address_pool {
     name         = "${azurerm_virtual_network.vnet.name}-beap"
-    ip_addresses = ["100.64.2.4"]
+    ip_addresses = ["${var.svcLoadbalancerAddress}"]
   }
 
   backend_http_settings {
@@ -356,7 +356,7 @@ resource "azurerm_application_gateway" "network" {
   }
 
   probe {
-    host = "100.64.2.4"
+    host = "${var.svcLoadbalancerAddress}"
     name = "IngressControllerHealthy"
     interval = 30
     protocol = "Http"
