@@ -87,10 +87,10 @@ variable "github_repository" {
   description = "Name of the Github repository for Flux"
 }
 
-variable "token" {
+variable "github_token" {
   description = "Github Token"
 }
 
-variable "organization" {
+variable "github_organization" {
   description = "Name of the Github id"
 }
