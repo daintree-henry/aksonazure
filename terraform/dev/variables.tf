@@ -86,3 +86,11 @@ variable "docker_bridge_cidr" {
 variable "github_repository" {
   description = "Name of the Github repository for Flux"
 }
+
+variable "token" {
+  description = "Github Token"
+}
+
+variable "organization" {
+  description = "Name of the Github id"
+}
