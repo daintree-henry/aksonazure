@@ -3,7 +3,6 @@ resource "azurerm_resource_group" "rg" {
     name     = "${var.prefix}-rg"
     location = var.location
 }
-
 # Create a virtual network within the resource group
 resource "azurerm_virtual_network" "vnet" {
     name                = "${var.prefix}vnet"
@@ -11,7 +10,6 @@ resource "azurerm_virtual_network" "vnet" {
     location            = azurerm_resource_group.rg.location
     resource_group_name = azurerm_resource_group.rg.name
 }
-
 # 서브넷 생성
 resource "azurerm_subnet" "akssubnet" {
     name                    = "${var.prefix}akssubnet"
@@ -46,7 +44,6 @@ resource "azurerm_public_ip" "fwpublicip" {
   allocation_method   = "Static"
   sku                 = "Standard"
 }
-
 #public ip 생성
 resource "azurerm_public_ip" "agpublicip" {
   name                = "${var.prefix}agpublicip"

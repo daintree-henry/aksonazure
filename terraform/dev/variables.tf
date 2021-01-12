@@ -83,3 +83,6 @@ variable "docker_bridge_cidr" {
   description = "The IP address CIDR block to be assigned to the Docker container bridge on each node. If connecting to another peer or to you On-Premises network this CIDR block SHOULD NOT overlap with existing BGP learned routes"
 }
 
+variable "github_repository" {
+  description = "Name of the Github repository for Flux"
+}
