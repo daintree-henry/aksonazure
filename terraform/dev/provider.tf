@@ -8,9 +8,11 @@ provider "github" {
   organization = var.github_organization
   version      = ">=4.1.0"
 }
+
 data "azurerm_kubernetes_cluster" "aksdata" {
-  name = azurerm_kubernetes_cluster.main.name
-  location = var.location
+  name = azurerm_kubernetes_cluster.main.name  
+  location            = azurerm_resource_group.rg.location
+  resource_group_name = azurerm_resource_group.rg.name
 }
 
 provider "kubernetes" {
