@@ -339,7 +339,7 @@ resource "azurerm_application_gateway" "network" {
 
   backend_address_pool {
     name         = "${azurerm_virtual_network.vnet.name}-beap"
-    ip_addresses = ["${var.svcLoadbalancerAddress}"]
+    ip_addresses = [var.svcLoadbalancerAddress]
   }
 
   backend_http_settings {
@@ -424,7 +424,6 @@ resource "azurerm_log_analytics_solution" "demo" {
 }
 
 resource "azurerm_kubernetes_cluster" "demo" {
-  depends_on = [azurerm_firewall_application_rule_collection.AKS]
   name                = "${var.prefix}-aks"
   location            = azurerm_resource_group.rg.location
   dns_prefix          = "${var.prefix}-aks"
