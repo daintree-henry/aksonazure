@@ -27,5 +27,5 @@ output "kubectl" {
 }
 
 output "important" {
-  value = "az network vnet subnet update -g ${azurerm_resource_group.rg.name} --vnet-name ${azurerm_virtual_network.vnet.name} --name ${azurerm_subnet.mainsubnet.name} --route-table ${azurerm_route_table.fwrt.name}"
+  value = "az network vnet subnet update -g ${azurerm_resource_group.rg.name} --vnet-name ${azurerm_virtual_network.vnet.name} --name ${azurerm_subnet.akssubnet.name} --route-table ${azurerm_route_table.fwrt.name}"
 }
