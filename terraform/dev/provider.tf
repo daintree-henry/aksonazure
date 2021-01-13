@@ -10,11 +10,11 @@ provider "github" {
 }
 
 provider "kubernetes" {    
-  host     = azurerm_kubernetes_cluster.aks.kube_config.host
+  host     = azurerm_kubernetes_cluster.main.kube_config.host
 
-  client_certificate     = azurerm_kubernetes_cluster.aks.kube_config.client_certificate
-  client_key             = azurerm_kubernetes_cluster.aks.kube_config.client_key
-  cluster_ca_certificate = azurerm_kubernetes_cluster.aks.kube_config.cluster_ca_certificate
+  client_certificate     = azurerm_kubernetes_cluster.main.kube_config.client_certificate
+  client_key             = azurerm_kubernetes_cluster.main.kube_config.client_key
+  cluster_ca_certificate = azurerm_kubernetes_cluster.main.kube_config.cluster_ca_certificate
   version = ">=1.13.3"
 }
 
@@ -24,12 +24,12 @@ provider "tls" {
 
 provider "helm" {
   kubernetes {
-    host     = azurerm_kubernetes_cluster.aks.kube_config.host
-    username = azurerm_kubernetes_cluster.aks.kube_config.username
-    password = azurerm_kubernetes_cluster.aks.kube_config.password
+    host     = azurerm_kubernetes_cluster.main.kube_config.host
+    username = azurerm_kubernetes_cluster.main.kube_config.username
+    password = azurerm_kubernetes_cluster.main.kube_config.password
 
-    client_certificate     = azurerm_kubernetes_cluster.aks.kube_config.client_certificate
-    client_key             = azurerm_kubernetes_cluster.aks.kube_config.client_key
-    cluster_ca_certificate = azurerm_kubernetes_cluster.aks.kube_config.cluster_ca_certificate
+    client_certificate     = azurerm_kubernetes_cluster.main.kube_config.client_certificate
+    client_key             = azurerm_kubernetes_cluster.main.kube_config.client_key
+    cluster_ca_certificate = azurerm_kubernetes_cluster.main.kube_config.cluster_ca_certificate
   }
 }

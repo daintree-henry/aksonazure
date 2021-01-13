@@ -423,7 +423,7 @@ resource "azurerm_log_analytics_solution" "demo" {
   }
 }
 
-resource "azurerm_kubernetes_cluster" "aks" {
+resource "azurerm_kubernetes_cluster" "main" {
   name                = "${var.prefix}-aks"
   location            = azurerm_resource_group.rg.location
   dns_prefix          = "${var.prefix}-aks"
@@ -488,16 +488,16 @@ resource "azurerm_kubernetes_cluster" "aks" {
 }
 
 resource "azurerm_role_assignment" "role1" {
-  depends_on = [azurerm_kubernetes_cluster.aks]
+  depends_on = [azurerm_kubernetes_cluster.main]
   scope                = azurerm_virtual_network.vnet.id
   role_definition_name = "Contributor"
-  principal_id         = azurerm_kubernetes_cluster.aks.identity[0].principal_id
+  principal_id         = azurerm_kubernetes_cluster.main.identity[0].principal_id
 }
 
 resource "azurerm_role_assignment" "role2" {
-  depends_on = [azurerm_kubernetes_cluster.aks]
-  scope                = azurerm_kubernetes_cluster.aks.id
+  depends_on = [azurerm_kubernetes_cluster.main]
+  scope                = azurerm_kubernetes_cluster.main.id
   role_definition_name = "Monitoring Metrics Publisher"
-  principal_id         = azurerm_kubernetes_cluster.aks.identity[0].principal_id
+  principal_id         = azurerm_kubernetes_cluster.main.identity[0].principal_id
 }
 
