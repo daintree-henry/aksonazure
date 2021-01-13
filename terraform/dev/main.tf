@@ -456,7 +456,7 @@ resource "azurerm_kubernetes_cluster" "aks" {
   role_based_access_control {
     enabled = false
   }
-  
+
   addon_profile {
     kube_dashboard {
       enabled = false
@@ -488,16 +488,16 @@ resource "azurerm_kubernetes_cluster" "aks" {
 }
 
 resource "azurerm_role_assignment" "role1" {
-  depends_on = [azurerm_kubernetes_cluster.demo]
+  depends_on = [azurerm_kubernetes_cluster.aks]
   scope                = azurerm_virtual_network.vnet.id
   role_definition_name = "Contributor"
-  principal_id         = azurerm_kubernetes_cluster.demo.identity[0].principal_id
+  principal_id         = azurerm_kubernetes_cluster.aks.identity[0].principal_id
 }
 
 resource "azurerm_role_assignment" "role2" {
-  depends_on = [azurerm_kubernetes_cluster.demo]
-  scope                = azurerm_kubernetes_cluster.demo.id
+  depends_on = [azurerm_kubernetes_cluster.aks]
+  scope                = azurerm_kubernetes_cluster.aks.id
   role_definition_name = "Monitoring Metrics Publisher"
-  principal_id         = azurerm_kubernetes_cluster.demo.identity[0].principal_id
+  principal_id         = azurerm_kubernetes_cluster.aks.identity[0].principal_id
 }
 
