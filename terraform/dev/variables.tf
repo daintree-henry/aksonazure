@@ -94,3 +94,7 @@ variable "github_token" {
 variable "github_organization" {
   description = "Name of the Github id"
 }
+
+variable "linux_user" {
+  description = "host linux user name for getting kubeconfig"
+}
