@@ -9,7 +9,7 @@ provider "github" {
   version      = ">=4.1.0"
 }
 data "azurerm_kubernetes_cluster" "aksdata" {
-  name = azurerm_kubernetes_cluster.aks.name
+  name = azurerm_kubernetes_cluster.main.name
   location = var.location
 }
 
