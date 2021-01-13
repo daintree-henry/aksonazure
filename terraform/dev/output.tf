@@ -23,5 +23,5 @@ output "host" {
 }
 
 output "kubectl" {
-  value = "az main get-credentials -g ${azurerm_resource_group.rg.name} -n ${azurerm_kubernetes_cluster.main.name} --admin"
+  value = "az aks get-credentials -g ${azurerm_resource_group.rg.name} -n ${azurerm_kubernetes_cluster.main.name} --admin"
 }
