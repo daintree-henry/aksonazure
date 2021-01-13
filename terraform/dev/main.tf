@@ -457,7 +457,7 @@ resource "azurerm_kubernetes_cluster" "demo" {
     enabled = true
 
     azure_active_directory {
-      managed = true
+      managed = false
     }
   }
   addon_profile {
