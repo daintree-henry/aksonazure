@@ -82,16 +82,12 @@ resource "azurerm_route_table" "fwrt" {
     next_hop_type  = "VirtualAppliance"
     next_hop_in_ip_address = azurerm_firewall.fw.ip_configuration[0].private_ip_address
   }
-
 }
 
-#firewall과 subnet 연결
-#TODO: 에러 발생, 해결 방안 확인중
-#az network vnet subnet update -g testtest-rg --vnet-name testtestvnet --name testtestakssubnet --route-table testtestfwrt
-# resource "azurerm_subnet_route_table_association" "srta" {
-#   subnet_id      = azurerm_subnet.fwsubnet.id
-#   route_table_id = azurerm_route_table.fwrt.id
-# }
+resource "azurerm_subnet_route_table_association" "srta" {
+  subnet_id      = azurerm_subnet.svcsubnet.id
+  route_table_id = azurerm_route_table.fwrt.id
+}
 
 resource "azurerm_firewall_network_rule_collection" "aksfwnr1" {
   name                = "aksfwnr"
@@ -454,7 +450,11 @@ resource "azurerm_kubernetes_cluster" "main" {
   }
 
   role_based_access_control {
-    enabled = false
+    enabled = true
+
+    azure_active_directory {
+      managed = true
+    }
   }
 
   addon_profile {
