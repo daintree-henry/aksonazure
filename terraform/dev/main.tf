@@ -423,7 +423,7 @@ resource "azurerm_log_analytics_solution" "demo" {
   }
 }
 
-resource "azurerm_kubernetes_cluster" "demo" {
+resource "azurerm_kubernetes_cluster" "aks" {
   name                = "${var.prefix}-aks"
   location            = azurerm_resource_group.rg.location
   dns_prefix          = "${var.prefix}-aks"

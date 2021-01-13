@@ -9,11 +9,12 @@ provider "github" {
   version      = ">=4.1.0"
 }
 
-provider "kubernetes" {
-  host                   = azurerm_kubernetes_cluster.demo.kube_admin_config.0.host
-  client_certificate     = base64decode(azurerm_kubernetes_cluster.demo.kube_admin_config.0.client_certificate)
-  client_key             = base64decode(azurerm_kubernetes_cluster.demo.kube_admin_config.0.client_key)
-  cluster_ca_certificate = base64decode(azurerm_kubernetes_cluster.demo.kube_admin_config.0.cluster_ca_certificate)
+provider "kubernetes" {    
+  host     = azurerm_kubernetes_cluster.aks.kube_config.host
+
+  client_certificate     = azurerm_kubernetes_cluster.aks.kube_config.client_certificate
+  client_key             = azurerm_kubernetes_cluster.aks.kube_config.client_key
+  cluster_ca_certificate = azurerm_kubernetes_cluster.aks.kube_config.cluster_ca_certificate
   version = ">=1.13.3"
 }
 
@@ -23,6 +24,12 @@ provider "tls" {
 
 provider "helm" {
   kubernetes {
-    config_path = "/home/${var.linux_user}/.kube/config"
+    host     = azurerm_kubernetes_cluster.aks.kube_config.host
+    username = azurerm_kubernetes_cluster.aks.kube_config.username
+    password = azurerm_kubernetes_cluster.aks.kube_config.password
+
+    client_certificate     = azurerm_kubernetes_cluster.aks.kube_config.client_certificate
+    client_key             = azurerm_kubernetes_cluster.aks.kube_config.client_key
+    cluster_ca_certificate = azurerm_kubernetes_cluster.aks.kube_config.cluster_ca_certificate
   }
 }
