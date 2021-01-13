@@ -20,3 +20,9 @@ provider "kubernetes" {
 provider "tls" {
   version = ">=3.0.0"
 }
+
+provider "helm" {
+  kubernetes {
+    config_path = "/home/${var.linux_user}/.kube/config"
+  }
+}
