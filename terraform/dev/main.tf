@@ -454,12 +454,9 @@ resource "azurerm_kubernetes_cluster" "aks" {
   }
 
   role_based_access_control {
-    enabled = true
-
-    azure_active_directory {
-      managed = false
-    }
+    enabled = false
   }
+  
   addon_profile {
     kube_dashboard {
       enabled = false
