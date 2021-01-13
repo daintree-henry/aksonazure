@@ -85,12 +85,7 @@ resource "azurerm_route_table" "fwrt" {
 
 }
 
-#firewall과 subnet 연결
-#TODO: 에러 발생, 해결 방안 확인중
-#az network vnet subnet update -g testtest-rg --vnet-name testtestvnet --name testtestakssubnet --route-table testtestfwrt
-#현재 수동으로 연결 진행 중..
-
 resource "azurerm_subnet_route_table_association" "srta" {
-  subnet_id      = azurerm_subnet.fwsubnet.id
+  subnet_id      = azurerm_subnet.svcsubnet.id
   route_table_id = azurerm_route_table.fwrt.id
 }
