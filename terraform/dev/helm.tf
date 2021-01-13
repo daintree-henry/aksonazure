@@ -18,12 +18,12 @@ resource "helm_release" "nginx_ingress" {
   }
   
   set {
-    name  = "controller.nodeSelector.\"beta\.kubernetes\.io/os\""
+    name  = "controller.nodeSelector.beta\\.kubernetes\\.io/os"
     value = "linux"
   }
   
   set {
-    name  = "defaultBackend.nodeSelector.\"beta\.kubernetes\.io/os\""
+    name  = "defaultBackend.nodeSelector.beta\\.kubernetes\\.io/os"
     value = "linux"
   }
 
@@ -33,12 +33,12 @@ resource "helm_release" "nginx_ingress" {
   }
 
   set {
-    name  = "controller.service.annotations.\"service\.beta\.kubernetes\.io/azure-load-balancer-internal\""
+    name  = "controller.service.annotations.service\\.beta\\.kubernetes\\.io/azure-load-balancer-internal"
     value = "100.64.2.4"
   }
 
   set {
-    name  = "controller.service.annotations.\"service\.beta\.kubernetes\.io/azure-load-balancer-internal-subnet\""
+    name  = "controller.service.annotations.service\\.beta\\.kubernetes\\.io/azure-load-balancer-internal-subnet"
     value = azurerm_subnet.svcsubnet.name
   }
 }
