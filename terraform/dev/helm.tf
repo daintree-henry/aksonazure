@@ -34,7 +34,7 @@ resource "helm_release" "nginx_ingress" {
 
   set {
     name  = "controller.service.annotations.service\\.beta\\.kubernetes\\.io/azure-load-balancer-internal"
-    value = "100.64.2.4"
+    value = "true"
   }
 
   set {
