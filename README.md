@@ -111,7 +111,7 @@ resource "kubernetes_service" "memcached"
 
 ## 9.ingress helm 구성
 
-[helm.tf]: https://github.com/daintree-henry/aksonazure/blob/main/terraform/dev/helm.tf
+[helm.tf](https://github.com/daintree-henry/aksonazure/blob/main/terraform/dev/helm.tf)
 
 ```bash
 resource "kubernetes_namespace" "ingress"
