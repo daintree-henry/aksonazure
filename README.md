@@ -29,7 +29,7 @@ github_token = "53a51517b2ddc1f90c285ef48339a05e2919d141"
 
 ## 2. 리소스 그룹 생성
 
-main.tf 
+[main.tf]: https://github.com/daintree-henry/aksonazure/blob/main/terraform/dev/main.tf
 
 ```bash
 resource "azurerm_resource_group" "rg"
@@ -37,7 +37,7 @@ resource "azurerm_resource_group" "rg"
 
 ## 3. VNet 생성
 
-main.tf 
+[main.tf]: https://github.com/daintree-henry/aksonazure/blob/main/terraform/dev/main.tf
 
 ```bash
 # --- vnet 및 subnet 생성 ---
@@ -54,7 +54,7 @@ resource "azurerm_public_ip" "agpublicip"
 
 ## 4. Firewall 생성
 
-main.tf 
+[main.tf]: https://github.com/daintree-henry/aksonazure/blob/main/terraform/dev/main.tf
 ```bash
 # --- firewall 및 route table 생성, subnet 연동 ---  
 resource "azurerm_firewall" "fw" 
@@ -72,20 +72,20 @@ resource "azurerm_firewall_application_rule_collection" "AKS"
 ```
 
 ## 5. Application Gateway 생성
-main.tf 
+[main.tf]: https://github.com/daintree-henry/aksonazure/blob/main/terraform/dev/main.tf
 ```bash
 resource "azurerm_application_gateway" "network"  
 ```
 
 ## 6. 스토리지 어카운트, 이미지 레지스트리 생성 
-main.tf
+[main.tf]: https://github.com/daintree-henry/aksonazure/blob/main/terraform/dev/main.tf
 ```bash
 resource "azurerm_storage_account" "storage" 
 resource "azurerm_container_registry" "acr"  
 ```
 
 ## 7. AKS 생성
-main.tf
+[main.tf]: https://github.com/daintree-henry/aksonazure/blob/main/terraform/dev/main.tf
 ```bash
 resource "azurerm_kubernetes_cluster" "main" 
 resource "azurerm_role_assignment" "role1" 
@@ -93,6 +93,7 @@ resource "azurerm_role_assignment" "role2"
 ```
 
 ## 8. flux 설치
+[flux.tf]: https://github.com/daintree-henry/aksonazure/blob/main/terraform/dev/flux.tf
 flux는 일정 간격을 통해 github의 yaml파일을 읽어와 kuberenetes에 동기화합니다.
 flux.tf 파일은 helm이 아닌 kuberentes 모듈을 사용하여 직접 리소스를 배포합니다.
 
@@ -109,7 +110,7 @@ resource "kubernetes_service" "memcached"
 ```
 
 ## 9.ingress helm 구성
-helm.tf
+[helm.tf]: https://github.com/daintree-henry/aksonazure/blob/main/terraform/dev/helm.tf
 ```bash
 resource "kubernetes_namespace" "ingress"
 resource "helm_release" "nginx_ingress"
