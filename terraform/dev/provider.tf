@@ -6,7 +6,7 @@ provider "azurerm" {
 provider "github" {
   token        = var.github_token
   organization = var.github_organization
-  version      = ">=4.1.0"
+  version      = "4.3.0"
 }
 
 provider "kubernetes" {
