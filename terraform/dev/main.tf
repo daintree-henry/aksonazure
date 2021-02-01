@@ -501,3 +501,9 @@ resource "azurerm_role_assignment" "role2" {
   principal_id         = azurerm_kubernetes_cluster.main.identity[0].principal_id
 }
 
+resource "azurerm_role_assignment" "role3" {
+  depends_on = [azurerm_kubernetes_cluster.main]
+  scope                = azurerm_container_registry.acr.id
+  role_definition_name = "Contributor"
+  principal_id         = azurerm_kubernetes_cluster.main.identity[0].principal_id
+}
